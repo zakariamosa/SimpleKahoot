@@ -26,7 +26,7 @@ class TeacherQuiz : AppCompatActivity() {
         var quizname=findViewById<EditText>(R.id.txtQuizName)
 
         btncreatequiz.setOnClickListener(){
-
+            try {
 
             var quz=Quiz(currentTeacher,numberofquestions.text.toString().toInt(),timeforeachquestion.text.toString().toInt(),"",quizname.text.toString())
 
@@ -34,10 +34,18 @@ class TeacherQuiz : AppCompatActivity() {
             allQuizes.add(quz)
 
 
-            var intent= Intent(this,MainQuestion::class.java)
-            intent.putExtra("myQuizCode",quz.quizCode)
-            intent.putExtra("questionNumber",numberofquestions.text.toString().toInt())
-            startActivity(intent)
+
+                var intent= Intent(this,MainQuestion::class.java)
+                intent.putExtra("myQuizCode",quz.quizCode)
+                intent.putExtra("questionNumber",numberofquestions.text.toString())
+                startActivity(intent)
+
+            }catch (exc:Throwable){
+                Log.d("!!!",exc.message.toString())
+            }
+
+
+
 
         }
 

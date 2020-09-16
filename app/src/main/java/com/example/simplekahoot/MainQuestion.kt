@@ -1,5 +1,6 @@
 package com.example.simplekahoot
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -10,16 +11,18 @@ import android.widget.TextView
 class MainQuestion : AppCompatActivity() {
 
 
-    var question = findViewById<EditText>(R.id.txtQuestion)
-    var answer1 = findViewById<EditText>(R.id.txtAnswer1)
-    var answer2 = findViewById<EditText>(R.id.txtAnswer2)
-    var answer3 = findViewById<EditText>(R.id.txtAnswer3)
-    var answer4 = findViewById<EditText>(R.id.txtAnswer4)
-    var rad1 = findViewById<RadioButton>(R.id.rbAnswer1)
-    var rad2 = findViewById<RadioButton>(R.id.rbAnswer2)
-    var rad3 = findViewById<RadioButton>(R.id.rbAnswer3)
-    var rad4 = findViewById<RadioButton>(R.id.rbAnswer4)
-    lateinit var quzcode:String
+
+        lateinit var question:EditText
+        lateinit var answer1:EditText
+        lateinit var answer2:EditText
+        lateinit var answer3:EditText
+        lateinit var answer4:EditText
+        lateinit var rad1:RadioButton
+        lateinit var rad2:RadioButton
+        lateinit var rad3:RadioButton
+        lateinit var rad4:RadioButton
+        lateinit var quzcode: String
+
 
 
 
@@ -27,15 +30,42 @@ class MainQuestion : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_question)
 
-        var questionNumber = intent.getIntExtra("questionNumber", 0)
+
+
+
+         question = findViewById<EditText>(R.id.txtQuestion)
+         answer1 = findViewById<EditText>(R.id.txtAnswer1)
+         answer2 = findViewById<EditText>(R.id.txtAnswer2)
+         answer3 = findViewById<EditText>(R.id.txtAnswer3)
+         answer4 = findViewById<EditText>(R.id.txtAnswer4)
+         rad1 = findViewById<RadioButton>(R.id.rbAnswer1)
+         rad2 = findViewById<RadioButton>(R.id.rbAnswer2)
+         rad3 = findViewById<RadioButton>(R.id.rbAnswer3)
+         rad4 = findViewById<RadioButton>(R.id.rbAnswer4)
+
+
+
+
+
+
+        var questionNumber = intent.getStringExtra("questionNumber")
         var designQuestionNumber = findViewById<TextView>(R.id.txtQuestionNumber)
-        designQuestionNumber.text = "QuestionNumber: " + questionNumber.toString()
+        var realquestionnumber:Int=1
+        designQuestionNumber.text = "QuestionNumber: "+realquestionnumber.toString()
         var btnSaveQuestion = findViewById<Button>(R.id.btnSaveQuestion)
         quzcode= intent.getStringExtra("myQuizCode").toString()
 
         btnSaveQuestion.setOnClickListener() {
             SaveCurrentQuestion()
             clearTexts()
+            if (realquestionnumber<questionNumber!!.toInt()) {
+                realquestionnumber += 1
+                designQuestionNumber.text = "QuestionNumber: " + realquestionnumber.toString()
+            }
+            else{
+                var intent= Intent(this,TeacherQuiz::class.java)
+                startActivity(intent)
+            }
         }
     }
 
