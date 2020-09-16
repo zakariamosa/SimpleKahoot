@@ -36,10 +36,9 @@ class TeacherQuiz : AppCompatActivity() {
 
             var intent= Intent(this,MainQuestion::class.java)
             intent.putExtra("myQuizCode",quz.quizCode)
-            for (i in 1..numberofquestions.text.toString().toInt()){
-                intent.putExtra("questionNumber",i)
-                startActivity(intent)
-            }
+            intent.putExtra("questionNumber",numberofquestions.text.toString().toInt())
+            startActivity(intent)
+
         }
 
 
