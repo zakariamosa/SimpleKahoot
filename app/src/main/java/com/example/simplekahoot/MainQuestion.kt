@@ -19,6 +19,8 @@ class MainQuestion : AppCompatActivity() {
     var rad2 = findViewById<RadioButton>(R.id.rbAnswer2)
     var rad3 = findViewById<RadioButton>(R.id.rbAnswer3)
     var rad4 = findViewById<RadioButton>(R.id.rbAnswer4)
+    lateinit var quzcode:String
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,10 +31,24 @@ class MainQuestion : AppCompatActivity() {
         var designQuestionNumber = findViewById<TextView>(R.id.txtQuestionNumber)
         designQuestionNumber.text = "QuestionNumber: " + questionNumber.toString()
         var btnSaveQuestion = findViewById<Button>(R.id.btnSaveQuestion)
+        quzcode= intent.getStringExtra("myQuizCode").toString()
 
         btnSaveQuestion.setOnClickListener() {
             SaveCurrentQuestion()
+            clearTexts()
         }
+    }
+
+    fun    clearTexts(){
+        question.setText("")
+        answer1.setText("")
+        answer2.setText("")
+        answer3.setText("")
+        answer4.setText("")
+        rad1.isChecked=true
+        rad2.isChecked=false
+        rad3.isChecked=false
+        rad4.isChecked=false
     }
 
 
@@ -62,6 +78,16 @@ class MainQuestion : AppCompatActivity() {
             answer4.text.toString(),
             RightAnswer
         )
+        addQuestiontoQuiz(q)
+    }
+
+    fun addQuestiontoQuiz(q:Question){
+
+        for (quz in allQuizes){
+               if (quz.quizCode==quzcode){
+                   quz.questions!!.add(q)
+               }
+        }
     }
 
 
