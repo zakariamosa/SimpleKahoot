@@ -63,7 +63,7 @@ class MainQuestion : AppCompatActivity() {
                 designQuestionNumber.text = "QuestionNumber: " + realquestionnumber.toString()
             }
             else{
-                var intent= Intent(this,TeacherQuiz::class.java)
+                var intent= Intent(this,TeacherHome::class.java)
                 startActivity(intent)
             }
         }
@@ -112,10 +112,11 @@ class MainQuestion : AppCompatActivity() {
     }
 
     fun addQuestiontoQuiz(q:Question){
-
+           var myquestions= mutableListOf<Question>()
         for (quz in allQuizes){
                if (quz.quizCode==quzcode){
-                   quz.questions!!.add(q)
+                   myquestions.add(q)
+                   quz.questions=    myquestions
                }
         }
     }
