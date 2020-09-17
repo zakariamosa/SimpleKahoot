@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".TeacherHome">
 
-    <ListView
-        android:id="@+id/lvTeacherQuizes"
-        android:layout_width="251dp"
-        android:layout_height="313dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
@@ -34,4 +25,18 @@
         android:text="New Quiz"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtTeacherQuizes"
+        android:layout_width="293dp"
+        android:layout_height="514dp"
+        android:layout_marginTop="100dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
