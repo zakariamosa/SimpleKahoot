@@ -12,6 +12,7 @@ class CurrentStudent : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_current_student)
 
+        val quzcode= intent.getStringExtra("QuizCode").toString()
 
         var btncontinue=findViewById<Button>(R.id.btnStudentContinueToQuiz)
         val txtstudentname=findViewById<EditText>(R.id.txtCurrentStudent)
@@ -22,7 +23,12 @@ class CurrentStudent : AppCompatActivity() {
             }
             else
             {
+                currentStudent= Student(txtstudentname.text.toString(),0)
+                allStudents.add(currentStudent)
                 val intent=Intent(this, StudentQuizQuestion::class.java)
+
+                intent.putExtra("QuizCode",quzcode)
+
                 startActivity(intent)
             }
         }
