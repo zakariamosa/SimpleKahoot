@@ -23,7 +23,7 @@ class CurrentStudent : AppCompatActivity() {
             }
             else
             {
-                currentStudent= Student(txtstudentname.text.toString(),0)
+                currentStudent= Student(txtstudentname.text.toString(),0.0)
                 allStudents.add(currentStudent)
                 val intent=Intent(this, StudentQuizQuestion::class.java)
 
