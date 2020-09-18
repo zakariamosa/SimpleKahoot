@@ -14,6 +14,7 @@ import java.time.LocalDate
 var allQuizes= mutableListOf<Quiz>()
 var allTeachers= mutableListOf<Teacher>()
 lateinit var currentTeacher:Teacher
+lateinit var currentStudent:Student
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,7 +30,11 @@ class MainActivity : AppCompatActivity() {
         myquestions.add(Question("vad gör man för att jobba gemensam med Git på olika ställe","pull .... add .....commit...push","add...commit...push", "commit...push", "push",1))
         myquestions.add(Question("1003 X 964 = ","986892","966892", "976892", "996892",2))
         myquestions.add(Question("15 - (3*3) / 6 = ","0","1", "2", "3",2))
-        var quz=Quiz(currentTeacher,5,10,"abcd1234", "iths20", LocalDate.now(),questions = myquestions)
+        var quz= if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Quiz(currentTeacher,5,10,"abcd1234", "iths20", LocalDate.now(),questions = myquestions)
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
 
         allQuizes.add(quz)
 }
