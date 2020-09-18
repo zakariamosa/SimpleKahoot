@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import kotlinx.android.synthetic.main.activity_main_question.*
 
 class StudentQuizQuestion : AppCompatActivity() {
 
@@ -131,10 +132,18 @@ class StudentQuizQuestion : AppCompatActivity() {
     fun calculateScore(currentprog: Int,isRightAnswer:Boolean) {
         if (isRightAnswer){
             currentStudent.Score+=90.0
-            currentStudent.Score+=currentprog/20
+            currentStudent.Score+=(currentprog/20.0)
         }
 
         val txtscore = findViewById<TextView>(R.id.txtScore)
         txtscore.text = currentStudent.Score.toString()//currentprog.toString()
+    }
+
+    fun resetAlt(){
+        question.setText("")
+        answer1.setText("")
+        answer2.setText("")
+        answer3.setText("")
+        answer4.setText("")
     }
 }
