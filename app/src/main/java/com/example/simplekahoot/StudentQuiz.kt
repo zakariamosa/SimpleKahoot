@@ -20,7 +20,7 @@ class StudentQuiz : AppCompatActivity() {
 
     fun callStudentQuestion(){
         val quzcode = intent.getStringExtra("QuizCode").toString()
-        val studentQuestionFragment =  StudentQuestion.newInstance(quzcode,quzcode)
+        val studentQuestionFragment =  StudentQuestion.newInstance(quzcode,"1")
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.container, studentQuestionFragment, "studentQuestionFragment" )

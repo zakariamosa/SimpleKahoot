@@ -61,7 +61,7 @@ class StudentQuestion : Fragment() {
         txtscore = view.findViewById<TextView>(R.id.txtScoreFragment)
 
 
-        LoadQuestion(1)
+        LoadQuestion(param2!!.toInt())
 
 
         return view
@@ -101,7 +101,7 @@ class StudentQuestion : Fragment() {
 
             override fun onFinish() {
                 myprogressbar.setBackgroundColor(Color.RED)
-                calculateScore(0,false)
+                calculateScore(0,false,QuestionNumber,totalquestions)
             }
         }
         timer.start()
@@ -114,7 +114,7 @@ class StudentQuestion : Fragment() {
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
                     val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==1
-                    calculateScore(myprogressbar.progress,isRightAnswer)
+                    calculateScore(myprogressbar.progress,isRightAnswer,QuestionNumber,totalquestions)
                 }
 
             }
@@ -129,7 +129,7 @@ class StudentQuestion : Fragment() {
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
                     val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==2
-                    calculateScore(myprogressbar.progress,isRightAnswer)
+                    calculateScore(myprogressbar.progress,isRightAnswer,QuestionNumber,totalquestions)
                 }
 
             }
@@ -144,7 +144,7 @@ class StudentQuestion : Fragment() {
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
                     val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==3
-                    calculateScore(myprogressbar.progress,isRightAnswer)
+                    calculateScore(myprogressbar.progress,isRightAnswer,QuestionNumber,totalquestions)
                 }
 
             }
@@ -159,7 +159,7 @@ class StudentQuestion : Fragment() {
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
                     val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==4
-                    calculateScore(myprogressbar.progress,isRightAnswer)
+                    calculateScore(myprogressbar.progress,isRightAnswer,QuestionNumber,totalquestions)
                 }
 
             }
@@ -169,12 +169,21 @@ class StudentQuestion : Fragment() {
     }
 
 
-    fun calculateScore(currentprog: Int,isRightAnswer:Boolean) {
+    fun calculateScore(currentprog: Int,isRightAnswer:Boolean,thisquestionnumber:Int,totalquestionsnumber:Int) {
+        var nextquestionnumber:String
+        if (thisquestionnumber==totalquestionsnumber){
+            nextquestionnumber="lastquestion"
+            param1="${(currentStudent.Score+90.0+(currentprog/20.0)).toString()} / ${(totalquestionsnumber*100).toString()}"
+        }else{
+            nextquestionnumber=(thisquestionnumber!!.toInt()+1).toString()
+        }
+
         if (isRightAnswer){
             currentStudent.Score+=90.0
             currentStudent.Score+=(currentprog/20.0)
 
-            val fragment = FragmentRightAnswer()
+
+            val fragment = FragmentRightAnswer.newInstance(param1!!,nextquestionnumber.toString())
             val transaction = this.fragmentManager?.beginTransaction()
             transaction?.replace(R.id.container, fragment, "rightAnswerFragment")
             transaction?.commit()

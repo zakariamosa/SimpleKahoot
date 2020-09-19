@@ -1,13 +1,12 @@
 package com.example.simplekahoot
 
-import android.graphics.Color
 import android.os.Bundle
-import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import java.lang.Thread.sleep
+import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_student_result.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,10 +15,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [FragmentRightAnswer.newInstance] factory method to
+ * Use the [FragmentStudentResult.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FragmentRightAnswer : Fragment() {
+class FragmentStudentResult : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -36,42 +35,13 @@ class FragmentRightAnswer : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-        fitchnextquestion()
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_right_answer, container, false)
 
+        val view=inflater.inflate(R.layout.fragment_student_result, container, false)
+        val studentresult=view.findViewById<TextView>(R.id.txtViewStudentResult)
+        studentresult.setText(param1)
 
-    }
-
-    fun fitchnextquestion(){
-        val p1=this.param1
-        val p2=this.param2!!
-        val frg=this.fragmentManager
-        val timer = object : CountDownTimer(3000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-
-            }
-
-            override fun onFinish() {
-                if (p2=="lastquestion"){
-                    val fragment = FragmentStudentResult.newInstance(p1!!,p2)
-                    val transaction = frg?.beginTransaction()
-                    transaction?.replace(R.id.container, fragment, "FragmentStudentResult")
-                    transaction?.commit()
-                }else{
-                    val fragment = StudentQuestion.newInstance(p1!!,p2)
-                    val transaction = frg?.beginTransaction()
-                    transaction?.replace(R.id.container, fragment, "studentQuestionFragment")
-                    transaction?.commit()
-                }
-
-            }
-        }
-        timer.start()
-
+        return view
     }
 
     companion object {
@@ -81,12 +51,12 @@ class FragmentRightAnswer : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment FragmentRightAnswer.
+         * @return A new instance of fragment FragmentStudentResult.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            FragmentRightAnswer().apply {
+            FragmentStudentResult().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
