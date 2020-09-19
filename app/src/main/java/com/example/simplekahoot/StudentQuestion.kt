@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -24,6 +25,8 @@ class StudentQuestion : Fragment() {
     lateinit var answer2: TextView
     lateinit var answer3: TextView
     lateinit var answer4: TextView
+    lateinit var qustnmbr:TextView
+    lateinit var myprogressbar:ProgressBar
 
     lateinit var txtscore:TextView
     private var param1: String? = null
@@ -45,31 +48,47 @@ class StudentQuestion : Fragment() {
         val view = inflater.inflate(R.layout.fragment_student_question, container, false)
 
 
-
         question = view.findViewById<TextView>(R.id.txtViewStudentQuestionFragment)
         answer1 = view.findViewById<TextView>(R.id.txtStudentAnswerNo1)
         answer2 = view.findViewById<TextView>(R.id.txtStudentAnswerNo2)
         answer3 = view.findViewById<TextView>(R.id.txtStudentAnswerNo3)
         answer4 = view.findViewById<TextView>(R.id.txtStudentAnswerNo4)
+        qustnmbr = view.findViewById<TextView>(R.id.txtQuestionNumberForStudentFragment)
+        myprogressbar = view.findViewById<ProgressBar>(R.id.progBarTimerFragment)
+
+
+
+        txtscore = view.findViewById<TextView>(R.id.txtScoreFragment)
+
+
+        LoadQuestion(1)
+
+
+        return view
+    }
+
+
+    fun LoadQuestion(QuestionNumber:Int){
 
 
 
 
-        var qustnmbr = view.findViewById<TextView>(R.id.txtQuestionNumberForStudentFragment)
+
+
         var totalquestions: Int
 
 
         var quizquestions = allQuizes.filter { Quiz -> Quiz.quizCode == param1 }
         totalquestions = quizquestions[0]?.numberOfQuestions
-        qustnmbr.setText("${qustnmbr.hint}: 1/${totalquestions.toString()}")
-        question.setText(quizquestions[0]?.questions?.get(0)?.question)
-        answer1.setText(quizquestions[0]?.questions?.get(0)?.alternativeAnswer1)
-        answer2.setText(quizquestions[0]?.questions?.get(0)?.alternativeAnswer2)
-        answer3.setText(quizquestions[0]?.questions?.get(0)?.alternativeAnswer3)
-        answer4.setText(quizquestions[0]?.questions?.get(0)?.alternativeAnswer4)
+        qustnmbr.setText("${qustnmbr.hint}: $QuestionNumber / ${totalquestions.toString()}")
+        question.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.question)
+        answer1.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.alternativeAnswer1)
+        answer2.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.alternativeAnswer2)
+        answer3.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.alternativeAnswer3)
+        answer4.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.alternativeAnswer4)
 
 
-        var myprogressbar = view.findViewById<ProgressBar>(R.id.progBarTimerFragment)
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             myprogressbar.min = 0
         }
@@ -94,7 +113,7 @@ class StudentQuestion : Fragment() {
                     v.setBackgroundColor(Color.GRAY)
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
-                    val isRightAnswer= quizquestions[0]?.questions?.get(0)?.rightAnswer==1
+                    val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==1
                     calculateScore(myprogressbar.progress,isRightAnswer)
                 }
 
@@ -109,7 +128,7 @@ class StudentQuestion : Fragment() {
                     v.setBackgroundColor(Color.GRAY)
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
-                    val isRightAnswer= quizquestions[0]?.questions?.get(0)?.rightAnswer==2
+                    val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==2
                     calculateScore(myprogressbar.progress,isRightAnswer)
                 }
 
@@ -124,7 +143,7 @@ class StudentQuestion : Fragment() {
                     v.setBackgroundColor(Color.GRAY)
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
-                    val isRightAnswer= quizquestions[0]?.questions?.get(0)?.rightAnswer==3
+                    val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==3
                     calculateScore(myprogressbar.progress,isRightAnswer)
                 }
 
@@ -139,7 +158,7 @@ class StudentQuestion : Fragment() {
                     v.setBackgroundColor(Color.GRAY)
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
-                    val isRightAnswer= quizquestions[0]?.questions?.get(0)?.rightAnswer==4
+                    val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==4
                     calculateScore(myprogressbar.progress,isRightAnswer)
                 }
 
@@ -147,11 +166,6 @@ class StudentQuestion : Fragment() {
             true
 
         }
-
-
-        txtscore = view.findViewById<TextView>(R.id.txtScoreFragment)
-
-        return view
     }
 
 
@@ -160,6 +174,16 @@ class StudentQuestion : Fragment() {
             currentStudent.Score+=90.0
             currentStudent.Score+=(currentprog/20.0)
 
+            val fragment = FragmentRightAnswer()
+            val transaction = this.fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.container, fragment, "rightAnswerFragment")
+            transaction?.commit()
+        }
+        else{
+            val fragment = FragmentWrongAnswer()
+            val transaction = this.fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.container, fragment, "wrongAnswerFragment")
+            transaction?.commit()
         }
 
 
@@ -199,4 +223,10 @@ class StudentQuestion : Fragment() {
     }
 
 
+
+
+
+
+
 }
+

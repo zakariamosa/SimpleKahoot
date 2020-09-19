@@ -10,6 +10,15 @@ class StudentQuiz : AppCompatActivity() {
 
 
 
+
+        callStudentQuestion()
+
+
+
+
+    }
+
+    fun callStudentQuestion(){
         val quzcode = intent.getStringExtra("QuizCode").toString()
         val studentQuestionFragment =  StudentQuestion.newInstance(quzcode,quzcode)
 
@@ -17,10 +26,24 @@ class StudentQuiz : AppCompatActivity() {
         transaction.add(R.id.container, studentQuestionFragment, "studentQuestionFragment" )
 
         transaction.commit()
+    }
 
 
-
+    fun replaceWithRightAnswerFragment() {
+        val fragment = FragmentRightAnswer()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment, "rightAnswerFragment")
+        transaction.commit()
 
 
     }
+    fun addRightAnswerFragment() {
+        val fragment = FragmentRightAnswer()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.container, fragment, "rightAnswerFragment" )
+        transaction.commit()
+    }
+
+
+
 }
