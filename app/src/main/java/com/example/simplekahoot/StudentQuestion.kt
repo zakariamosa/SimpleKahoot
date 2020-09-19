@@ -171,9 +171,13 @@ class StudentQuestion : Fragment() {
 
     fun calculateScore(currentprog: Int,isRightAnswer:Boolean,thisquestionnumber:Int,totalquestionsnumber:Int) {
         var nextquestionnumber:String
-        if (thisquestionnumber==totalquestionsnumber){
+        if (thisquestionnumber==totalquestionsnumber&&isRightAnswer){
             nextquestionnumber="lastquestion"
             param1="${(currentStudent.Score+90.0+(currentprog/20.0)).toString()} / ${(totalquestionsnumber*100).toString()}"
+        }
+        else if(thisquestionnumber==totalquestionsnumber&&!isRightAnswer){
+            nextquestionnumber="lastquestion"
+            param1="${(currentStudent.Score).toString()} / ${(totalquestionsnumber*100).toString()}"
         }else{
             nextquestionnumber=(thisquestionnumber!!.toInt()+1).toString()
         }
@@ -189,7 +193,7 @@ class StudentQuestion : Fragment() {
             transaction?.commit()
         }
         else{
-            val fragment = FragmentWrongAnswer()
+            val fragment = FragmentWrongAnswer.newInstance(param1!!,nextquestionnumber.toString())
             val transaction = this.fragmentManager?.beginTransaction()
             transaction?.replace(R.id.container, fragment, "wrongAnswerFragment")
             transaction?.commit()

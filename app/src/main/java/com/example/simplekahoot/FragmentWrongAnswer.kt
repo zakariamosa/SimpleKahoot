@@ -1,6 +1,7 @@
 package com.example.simplekahoot
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,8 +34,37 @@ class FragmentWrongAnswer : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        fitchnextquestion()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_wrong_answer, container, false)
+    }
+
+    fun fitchnextquestion(){
+        val p1=this.param1
+        val p2=this.param2!!
+        val frg=this.fragmentManager
+        val timer = object : CountDownTimer(3000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                if (p2=="lastquestion"){
+                    val fragment = FragmentStudentResult.newInstance(p1!!,p2)
+                    val transaction = frg?.beginTransaction()
+                    transaction?.replace(R.id.container, fragment, "FragmentStudentResult")
+                    transaction?.commit()
+                }else{
+                    val fragment = StudentQuestion.newInstance(p1!!,p2)
+                    val transaction = frg?.beginTransaction()
+                    transaction?.replace(R.id.container, fragment, "studentQuestionFragment")
+                    transaction?.commit()
+                }
+
+            }
+        }
+        timer.start()
+
     }
 
     companion object {
