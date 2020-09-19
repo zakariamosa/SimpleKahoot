@@ -2,19 +2,22 @@ package com.example.simplekahoot
 
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.widget.EditText
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import kotlinx.android.synthetic.main.activity_main_question.*
 
-class StudentQuizQuestion : AppCompatActivity() {
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
+
+class StudentQuestion : Fragment() {
+
 
     lateinit var question: TextView
     lateinit var answer1: TextView
@@ -22,26 +25,41 @@ class StudentQuizQuestion : AppCompatActivity() {
     lateinit var answer3: TextView
     lateinit var answer4: TextView
 
+    lateinit var txtscore:TextView
+    private var param1: String? = null
+    private var param2: String? = null
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_student_quiz_question)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
 
-        question = findViewById<TextView>(R.id.txtViewStudentQuestion)
-        answer1 = findViewById<TextView>(R.id.txtStudentAnswer1)
-        answer2 = findViewById<TextView>(R.id.txtStudentAnswer2)
-        answer3 = findViewById<TextView>(R.id.txtStudentAnswer3)
-        answer4 = findViewById<TextView>(R.id.txtStudentAnswer4)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_student_question, container, false)
 
 
-        val quzcode = intent.getStringExtra("QuizCode").toString()
 
-        var qustnmbr = findViewById<TextView>(R.id.txtQuestionNumberForStudent)
+        question = view.findViewById<TextView>(R.id.txtViewStudentQuestionFragment)
+        answer1 = view.findViewById<TextView>(R.id.txtStudentAnswerNo1)
+        answer2 = view.findViewById<TextView>(R.id.txtStudentAnswerNo2)
+        answer3 = view.findViewById<TextView>(R.id.txtStudentAnswerNo3)
+        answer4 = view.findViewById<TextView>(R.id.txtStudentAnswerNo4)
+
+
+
+
+        var qustnmbr = view.findViewById<TextView>(R.id.txtQuestionNumberForStudentFragment)
         var totalquestions: Int
 
 
-        var quizquestions = allQuizes.filter { Quiz -> Quiz.quizCode == quzcode }
+        var quizquestions = allQuizes.filter { Quiz -> Quiz.quizCode == param1 }
         totalquestions = quizquestions[0]?.numberOfQuestions
         qustnmbr.setText("${qustnmbr.hint}: 1/${totalquestions.toString()}")
         question.setText(quizquestions[0]?.questions?.get(0)?.question)
@@ -51,8 +69,10 @@ class StudentQuizQuestion : AppCompatActivity() {
         answer4.setText(quizquestions[0]?.questions?.get(0)?.alternativeAnswer4)
 
 
-        var myprogressbar = findViewById<ProgressBar>(R.id.progBarTimer)
-        myprogressbar.min = 0
+        var myprogressbar = view.findViewById<ProgressBar>(R.id.progBarTimerFragment)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            myprogressbar.min = 0
+        }
         myprogressbar.max = 200
         myprogressbar.incrementProgressBy(200)
         val timer = object : CountDownTimer(20000, 1000) {
@@ -128,21 +148,22 @@ class StudentQuizQuestion : AppCompatActivity() {
 
         }
 
+
+        txtscore = view.findViewById<TextView>(R.id.txtScoreFragment)
+
+        return view
     }
+
 
     fun calculateScore(currentprog: Int,isRightAnswer:Boolean) {
         if (isRightAnswer){
             currentStudent.Score+=90.0
             currentStudent.Score+=(currentprog/20.0)
-            val intent = Intent(this, TrueAnswer::class.java)
-            startActivity(intent)
-        }
-        else{
-            val intent = Intent(this, FalseAnswer::class.java)
-            startActivity(intent)
+
         }
 
-        val txtscore = findViewById<TextView>(R.id.txtScore)
+
+
         txtscore.text = currentStudent.Score.toString()//currentprog.toString()
     }
 
@@ -153,4 +174,29 @@ class StudentQuizQuestion : AppCompatActivity() {
         answer3.setText("")
         answer4.setText("")
     }
+
+
+
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment YellowFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            StudentQuestion().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+    }
+
+
 }

@@ -25,7 +25,9 @@ class CurrentStudent : AppCompatActivity() {
             {
                 currentStudent= Student(txtstudentname.text.toString(),0.0)
                 allStudents.add(currentStudent)
-                val intent=Intent(this, StudentQuizQuestion::class.java)
+                //val intent=Intent(this, StudentQuizQuestion::class.java)
+
+                val intent=Intent(this, StudentQuiz::class.java)
 
                 intent.putExtra("QuizCode",quzcode)
 
