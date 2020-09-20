@@ -30,10 +30,10 @@
         android:text="A Teacher ?"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.721"
+        app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toEndOf="@+id/btnGetTheQuiz"
         app:layout_constraintTop_toBottomOf="@+id/txtQuizCode"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.06" />
 
     <Button
         android:id="@+id/btnGetTheQuiz"
