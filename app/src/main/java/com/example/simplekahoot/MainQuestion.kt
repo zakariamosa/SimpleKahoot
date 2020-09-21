@@ -111,12 +111,16 @@ class MainQuestion : AppCompatActivity() {
         addQuestiontoQuiz(q)
     }
 
-    fun addQuestiontoQuiz(q:Question){
-           var myquestions= mutableListOf<Question>()
+    fun addQuestiontoQuiz(q: Question) {
+
         for (quz in allQuizes){
                if (quz.quizCode==quzcode){
-                   myquestions.add(q)
-                   quz.questions=    myquestions
+                   if(quz.questions==null){
+                       quz.questions= mutableListOf(q)
+                   }
+                   else{
+                       quz.questions!!.add(q)
+                   }
                }
         }
     }
