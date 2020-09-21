@@ -1,17 +1,19 @@
 package com.example.simplekahoot
 
-import android.content.Intent
+
 import android.graphics.Color
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Bundle
 import android.os.CountDownTimer
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -45,6 +47,9 @@ class StudentQuestion : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+
         val view = inflater.inflate(R.layout.fragment_student_question, container, false)
 
 
@@ -68,7 +73,7 @@ class StudentQuestion : Fragment() {
     }
 
 
-    fun LoadQuestion(QuestionNumber:Int){
+    fun LoadQuestion(QuestionNumber: Int){
 
 
 
@@ -81,11 +86,11 @@ class StudentQuestion : Fragment() {
         var quizquestions = allQuizes.filter { Quiz -> Quiz.quizCode == param1 }
         totalquestions = quizquestions[0]?.numberOfQuestions
         qustnmbr.setText("${qustnmbr.hint}: $QuestionNumber / ${totalquestions.toString()}")
-        question.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.question)
-        answer1.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.alternativeAnswer1)
-        answer2.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.alternativeAnswer2)
-        answer3.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.alternativeAnswer3)
-        answer4.setText(quizquestions[0]?.questions?.get(QuestionNumber-1)?.alternativeAnswer4)
+        question.setText(quizquestions[0]?.questions?.get(QuestionNumber - 1)?.question)
+        answer1.setText(quizquestions[0]?.questions?.get(QuestionNumber - 1)?.alternativeAnswer1)
+        answer2.setText(quizquestions[0]?.questions?.get(QuestionNumber - 1)?.alternativeAnswer2)
+        answer3.setText(quizquestions[0]?.questions?.get(QuestionNumber - 1)?.alternativeAnswer3)
+        answer4.setText(quizquestions[0]?.questions?.get(QuestionNumber - 1)?.alternativeAnswer4)
 
 
 
@@ -97,11 +102,12 @@ class StudentQuestion : Fragment() {
         val timer = object : CountDownTimer(20000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 myprogressbar.incrementProgressBy(-10)
+                playsound()
             }
 
             override fun onFinish() {
                 myprogressbar.setBackgroundColor(Color.RED)
-                calculateScore(0,false,QuestionNumber,totalquestions)
+                calculateScore(0, false, QuestionNumber, totalquestions)
             }
         }
         timer.start()
@@ -113,8 +119,14 @@ class StudentQuestion : Fragment() {
                     v.setBackgroundColor(Color.GRAY)
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
-                    val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==1
-                    calculateScore(myprogressbar.progress,isRightAnswer,QuestionNumber,totalquestions)
+                    val isRightAnswer =
+                        quizquestions[0]?.questions?.get(QuestionNumber - 1)?.rightAnswer == 1
+                    calculateScore(
+                        myprogressbar.progress,
+                        isRightAnswer,
+                        QuestionNumber,
+                        totalquestions
+                    )
                 }
 
             }
@@ -128,8 +140,14 @@ class StudentQuestion : Fragment() {
                     v.setBackgroundColor(Color.GRAY)
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
-                    val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==2
-                    calculateScore(myprogressbar.progress,isRightAnswer,QuestionNumber,totalquestions)
+                    val isRightAnswer =
+                        quizquestions[0]?.questions?.get(QuestionNumber - 1)?.rightAnswer == 2
+                    calculateScore(
+                        myprogressbar.progress,
+                        isRightAnswer,
+                        QuestionNumber,
+                        totalquestions
+                    )
                 }
 
             }
@@ -143,8 +161,14 @@ class StudentQuestion : Fragment() {
                     v.setBackgroundColor(Color.GRAY)
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
-                    val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==3
-                    calculateScore(myprogressbar.progress,isRightAnswer,QuestionNumber,totalquestions)
+                    val isRightAnswer =
+                        quizquestions[0]?.questions?.get(QuestionNumber - 1)?.rightAnswer == 3
+                    calculateScore(
+                        myprogressbar.progress,
+                        isRightAnswer,
+                        QuestionNumber,
+                        totalquestions
+                    )
                 }
 
             }
@@ -158,8 +182,14 @@ class StudentQuestion : Fragment() {
                     v.setBackgroundColor(Color.GRAY)
                     myprogressbar.incrementProgressBy(0)
                     timer.cancel()
-                    val isRightAnswer= quizquestions[0]?.questions?.get(QuestionNumber-1)?.rightAnswer==4
-                    calculateScore(myprogressbar.progress,isRightAnswer,QuestionNumber,totalquestions)
+                    val isRightAnswer =
+                        quizquestions[0]?.questions?.get(QuestionNumber - 1)?.rightAnswer == 4
+                    calculateScore(
+                        myprogressbar.progress,
+                        isRightAnswer,
+                        QuestionNumber,
+                        totalquestions
+                    )
                 }
 
             }
@@ -169,7 +199,12 @@ class StudentQuestion : Fragment() {
     }
 
 
-    fun calculateScore(currentprog: Int,isRightAnswer:Boolean,thisquestionnumber:Int,totalquestionsnumber:Int) {
+    fun calculateScore(
+        currentprog: Int,
+        isRightAnswer: Boolean,
+        thisquestionnumber: Int,
+        totalquestionsnumber: Int
+    ) {
         var nextquestionnumber:String
         if (thisquestionnumber==totalquestionsnumber&&isRightAnswer){
             nextquestionnumber="lastquestion"
@@ -187,13 +222,13 @@ class StudentQuestion : Fragment() {
             currentStudent.Score+=(currentprog/20.0)
 
 
-            val fragment = FragmentRightAnswer.newInstance(param1!!,nextquestionnumber.toString())
+            val fragment = FragmentRightAnswer.newInstance(param1!!, nextquestionnumber.toString())
             val transaction = this.fragmentManager?.beginTransaction()
             transaction?.replace(R.id.container, fragment, "rightAnswerFragment")
             transaction?.commit()
         }
         else{
-            val fragment = FragmentWrongAnswer.newInstance(param1!!,nextquestionnumber.toString())
+            val fragment = FragmentWrongAnswer.newInstance(param1!!, nextquestionnumber.toString())
             val transaction = this.fragmentManager?.beginTransaction()
             transaction?.replace(R.id.container, fragment, "wrongAnswerFragment")
             transaction?.commit()
@@ -204,12 +239,14 @@ class StudentQuestion : Fragment() {
         txtscore.text = currentStudent.Score.toString()//currentprog.toString()
     }
 
-    fun resetAlt(){
-        question.setText("")
-        answer1.setText("")
-        answer2.setText("")
-        answer3.setText("")
-        answer4.setText("")
+    fun playsound(){
+        val soundPool = SoundPool(5, AudioManager.STREAM_MUSIC, 0)
+        val soundId = soundPool.load(context, R.raw.clockticks, 1)
+
+
+
+        soundPool.play(soundId, 1f, 1f, 0, 0, 1f)
+
     }
 
 
