@@ -5,7 +5,64 @@
     android:id="@+id/StudentQuestion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#21372A"
     tools:context=".StudentQuestion">
+
+    <TextView
+        android:id="@+id/txtViewStudentQuestionFragment"
+        android:layout_width="371dp"
+        android:layout_height="258dp"
+        android:layout_marginTop="30dp"
+        android:background="#CDDC39"
+        android:singleLine="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtQuestionNumberForStudentFragment"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtScoreFragment"
+        android:layout_width="76dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="28dp"
+        android:textColor="#FF5722"
+        app:layout_constraintEnd_toStartOf="@+id/txtQuestionNumberForStudentFragment"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtQuestionNumberForStudentFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:background="#2196F3"
+        android:hint="QuestionNumber"
+        android:textColor="#FF9800"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtStudentAnswerNo2"
+        android:layout_width="161dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:background="#E91E63"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewStudentQuestionFragment"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/txtStudentAnswerNo3"
@@ -14,9 +71,12 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
+        android:background="#9C27B0"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.112"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtStudentAnswerNo1"
         app:layout_constraintVertical_bias="0.0" />
@@ -28,37 +88,14 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
+        android:background="#673AB7"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtStudentAnswerNo2"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/txtQuestionNumberForStudentFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:hint="QuestionNumber"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.465"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.017" />
-
-    <TextView
-        android:id="@+id/txtViewStudentQuestionFragment"
-        android:layout_width="371dp"
-        android:layout_height="258dp"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.425"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtQuestionNumberForStudentFragment"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -67,22 +104,12 @@
         android:layout_height="70dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
+        android:background="#F44336"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.097"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewStudentQuestionFragment"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/txtStudentAnswerNo2"
-        android:layout_width="161dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtViewStudentQuestionFragment"
         app:layout_constraintVertical_bias="0.0" />
@@ -90,22 +117,12 @@
     <ProgressBar
         android:id="@+id/progBarTimerFragment"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="307dp"
-        android:layout_height="172dp"
+        android:layout_width="295dp"
+        android:layout_height="77dp"
         android:layout_marginTop="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtViewStudentQuestionFragment" />
-
-    <TextView
-        android:id="@+id/txtScoreFragment"
-        android:layout_width="76dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/txtQuestionNumberForStudentFragment"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
