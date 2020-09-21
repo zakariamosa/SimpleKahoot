@@ -3,6 +3,7 @@ package com.example.simplekahoot
 
 import android.graphics.Color
 import android.media.AudioManager
+import android.media.MediaPlayer
 import android.media.SoundPool
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -29,6 +30,7 @@ class StudentQuestion : Fragment() {
     lateinit var answer4: TextView
     lateinit var qustnmbr:TextView
     lateinit var myprogressbar:ProgressBar
+    private lateinit var mediaPlayer: MediaPlayer
 
     lateinit var txtscore:TextView
     private var param1: String? = null
@@ -64,8 +66,7 @@ class StudentQuestion : Fragment() {
 
 
         txtscore = view.findViewById<TextView>(R.id.txtScoreFragment)
-
-
+        playsound()
         LoadQuestion(param2!!.toInt())
 
 
@@ -102,12 +103,13 @@ class StudentQuestion : Fragment() {
         val timer = object : CountDownTimer(20000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 myprogressbar.incrementProgressBy(-10)
-                playsound()
+
             }
 
             override fun onFinish() {
                 myprogressbar.setBackgroundColor(Color.RED)
                 calculateScore(0, false, QuestionNumber, totalquestions)
+                stopSound()
             }
         }
         timer.start()
@@ -237,16 +239,15 @@ class StudentQuestion : Fragment() {
 
 
         txtscore.text = currentStudent.Score.toString()//currentprog.toString()
+        stopSound()
     }
 
     fun playsound(){
-        val soundPool = SoundPool(5, AudioManager.STREAM_MUSIC, 0)
-        val soundId = soundPool.load(context, R.raw.clockticks, 1)
-
-
-
-        soundPool.play(soundId, 1f, 1f, 0, 0, 1f)
-
+        mediaPlayer = MediaPlayer.create(context,R.raw.clockticks)
+        mediaPlayer.start()
+    }
+    fun stopSound(){
+        mediaPlayer.stop()
     }
 
 
