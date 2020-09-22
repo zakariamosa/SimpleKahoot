@@ -28,15 +28,26 @@
 
     <EditText
         android:id="@+id/txtTeacherQuizes"
-        android:layout_width="293dp"
-        android:layout_height="514dp"
+        android:layout_width="291dp"
+        android:layout_height="78dp"
         android:layout_marginTop="100dp"
         android:ems="10"
         android:inputType="textMultiLine"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewQuizes"
+        android:layout_width="375dp"
+        android:layout_height="536dp"
+        android:layout_marginTop="140dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnNewQuiz"
+        tools:layout_editor_absoluteX="20dp"
+        tools:listitem="@layout/list_quizes_items" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

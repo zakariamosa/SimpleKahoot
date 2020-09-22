@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class TeacherHome : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +35,14 @@ class TeacherHome : AppCompatActivity() {
             var intent=Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
+
+        var TeacherQuizes= allQuizes.filter { q->q.QuizTeacher== currentTeacher }
+        var myRecyclerView=findViewById<RecyclerView>(R.id.recyclerViewQuizes)
+        myRecyclerView.layoutManager= LinearLayoutManager(this)
+        val myAdapter=QuizRecyclerAdapter(this,TeacherQuizes)
+
+        myRecyclerView.adapter=myAdapter
 
 
     }
