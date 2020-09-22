@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
 
     init {
-        currentTeacher= Teacher("David","David.svenson@iths.se","123456")
+        currentTeacher= Teacher("David","zakaria.mosa@iths.se","123456")
         allTeachers.add(currentTeacher)
         var myquestions= mutableListOf<Question>()
         myquestions.add(Question("133 % 10 = ","0","5", "3", "7",3))

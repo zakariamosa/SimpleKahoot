@@ -29,20 +29,7 @@ class StudentQuiz : AppCompatActivity() {
     }
 
 
-    fun replaceWithRightAnswerFragment() {
-        val fragment = FragmentRightAnswer()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment, "rightAnswerFragment")
-        transaction.commit()
 
-
-    }
-    fun addRightAnswerFragment() {
-        val fragment = FragmentRightAnswer()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.container, fragment, "rightAnswerFragment" )
-        transaction.commit()
-    }
 
 
 

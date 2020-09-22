@@ -35,6 +35,7 @@ class StudentQuestion : Fragment() {
     lateinit var txtscore:TextView
     private var param1: String? = null
     private var param2: String? = null
+    private var param3: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +51,7 @@ class StudentQuestion : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
+        param3=param1
 
         val view = inflater.inflate(R.layout.fragment_student_question, container, false)
 
@@ -224,13 +225,13 @@ class StudentQuestion : Fragment() {
             currentStudent.Score+=(currentprog/20.0)
 
 
-            val fragment = FragmentRightAnswer.newInstance(param1!!, nextquestionnumber.toString())
+            val fragment = FragmentRightAnswer.newInstance(param1!!, nextquestionnumber.toString(),param3!!)
             val transaction = this.fragmentManager?.beginTransaction()
             transaction?.replace(R.id.container, fragment, "rightAnswerFragment")
             transaction?.commit()
         }
         else{
-            val fragment = FragmentWrongAnswer.newInstance(param1!!, nextquestionnumber.toString())
+            val fragment = FragmentWrongAnswer.newInstance(param1!!, nextquestionnumber.toString(),param3!!)
             val transaction = this.fragmentManager?.beginTransaction()
             transaction?.replace(R.id.container, fragment, "wrongAnswerFragment")
             transaction?.commit()
