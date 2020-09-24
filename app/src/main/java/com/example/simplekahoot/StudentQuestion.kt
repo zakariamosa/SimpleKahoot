@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.media.SoundPool
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -31,6 +32,8 @@ class StudentQuestion : Fragment() {
     lateinit var qustnmbr:TextView
     lateinit var myprogressbar:ProgressBar
     private lateinit var mediaPlayer: MediaPlayer
+    lateinit var currentQuestion: Question
+    private var CurrentStudentAnswer:Int=0
 
     lateinit var txtscore:TextView
     private var param1: String? = null
@@ -94,7 +97,7 @@ class StudentQuestion : Fragment() {
         answer3.setText(quizquestions[0]?.questions?.get(QuestionNumber - 1)?.alternativeAnswer3)
         answer4.setText(quizquestions[0]?.questions?.get(QuestionNumber - 1)?.alternativeAnswer4)
 
-
+        currentQuestion=quizquestions[0]?.questions?.get(QuestionNumber - 1)!!
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             myprogressbar.min = 0
@@ -124,6 +127,7 @@ class StudentQuestion : Fragment() {
                     timer.cancel()
                     val isRightAnswer =
                         quizquestions[0]?.questions?.get(QuestionNumber - 1)?.rightAnswer == 1
+                    CurrentStudentAnswer=1
                     calculateScore(
                         myprogressbar.progress,
                         isRightAnswer,
@@ -145,6 +149,7 @@ class StudentQuestion : Fragment() {
                     timer.cancel()
                     val isRightAnswer =
                         quizquestions[0]?.questions?.get(QuestionNumber - 1)?.rightAnswer == 2
+                    CurrentStudentAnswer=2
                     calculateScore(
                         myprogressbar.progress,
                         isRightAnswer,
@@ -166,6 +171,7 @@ class StudentQuestion : Fragment() {
                     timer.cancel()
                     val isRightAnswer =
                         quizquestions[0]?.questions?.get(QuestionNumber - 1)?.rightAnswer == 3
+                    CurrentStudentAnswer=3
                     calculateScore(
                         myprogressbar.progress,
                         isRightAnswer,
@@ -187,6 +193,7 @@ class StudentQuestion : Fragment() {
                     timer.cancel()
                     val isRightAnswer =
                         quizquestions[0]?.questions?.get(QuestionNumber - 1)?.rightAnswer == 4
+                    CurrentStudentAnswer=4
                     calculateScore(
                         myprogressbar.progress,
                         isRightAnswer,
@@ -240,7 +247,18 @@ class StudentQuestion : Fragment() {
 
 
         txtscore.text = currentStudent.Score.toString()//currentprog.toString()
+        insertTransactionDetail(txtscore.text.toString().toDouble())
         stopSound()
+    }
+
+    fun insertTransactionDetail(studentcurrentscour:Double){
+        allTransactionDetails.add(TransactionDetails(param1.toString(),currentQuestion,CurrentStudentAnswer,
+            currentStudent,studentcurrentscour))
+        for (trand in allTransactionDetails){
+            if (trand.quizcode==param1 &&trand.question==currentQuestion){
+                Log.d("!!!", "${trand.student.StudentName} in this stage got ${trand.studentcurrentscour.toString()}")
+            }
+        }
     }
 
     fun playsound(){
