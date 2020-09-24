@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/txterrorstudentname"
-        android:layout_width="338dp"
-        android:layout_height="26dp"
+        android:layout_width="330dp"
+        android:layout_height="59dp"
         android:layout_marginTop="30dp"
         android:textColor="@android:color/holo_red_dark"
         android:visibility="invisible"

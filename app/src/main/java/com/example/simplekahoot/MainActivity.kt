@@ -16,6 +16,8 @@ var allTeachers= mutableListOf<Teacher>()
 lateinit var currentTeacher:Teacher
 lateinit var currentStudent:Student
 var allStudents= mutableListOf<Student>()
+var allTransactions= mutableListOf<Transaction>()
+var allTransactionDetails= mutableListOf<TransactionDetails>()
 
 class MainActivity : AppCompatActivity() {
 
