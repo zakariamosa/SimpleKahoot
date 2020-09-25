@@ -51,6 +51,7 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
             2->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer2)}
             3->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer3)}
             4->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer4)}
+            else->{holder.txtStudentAnswer.setText("Did not answer")}
         }
 
     }

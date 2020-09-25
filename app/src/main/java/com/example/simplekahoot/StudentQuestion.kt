@@ -67,7 +67,7 @@ class StudentQuestion : Fragment() {
         qustnmbr = view.findViewById<TextView>(R.id.txtQuestionNumberForStudentFragment)
         myprogressbar = view.findViewById<ProgressBar>(R.id.progBarTimerFragment)
 
-
+        CurrentStudentAnswer=0
 
         txtscore = view.findViewById<TextView>(R.id.txtScoreFragment)
         playsound()
@@ -118,6 +118,7 @@ class StudentQuestion : Fragment() {
         }
         timer.start()
 
+        CurrentStudentAnswer=0
 
         answer1.setOnTouchListener() { v, event ->
             when (event?.action) {
@@ -206,6 +207,7 @@ class StudentQuestion : Fragment() {
             true
 
         }
+
     }
 
 
@@ -254,11 +256,12 @@ class StudentQuestion : Fragment() {
     fun insertTransactionDetail(studentcurrentscour:Double){
         allTransactionDetails.add(TransactionDetails(param1.toString(),currentQuestion,CurrentStudentAnswer,
             currentStudent,studentcurrentscour))
+        /*Log.d("!!!",CurrentStudentAnswer.toString())
         for (trand in allTransactionDetails){
             if (trand.quizcode==param1 &&trand.question==currentQuestion){
                 Log.d("!!!", "${trand.student.StudentName} in this stage got ${trand.studentcurrentscour.toString()}")
             }
-        }
+        }*/
     }
 
     fun playsound(){
