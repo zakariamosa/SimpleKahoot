@@ -45,7 +45,7 @@ class fragmentcorrectanswersforquiz : Fragment() {
         var questions=allQuizes.filter { quz->quz.quizCode==param3}[0].questions
         val rcyklview=view.findViewById<RecyclerView>(R.id.recyclerViewQuizCorrectAnswers)
         rcyklview.layoutManager=LinearLayoutManager(view.context)
-        val myadapter=AdapterQuizQuestionsAnswers(view.context,questions!!)
+        val myadapter=AdapterQuizQuestionsAnswers(view.context,questions!!,param3!!)
         rcyklview.adapter=myadapter
 
 
