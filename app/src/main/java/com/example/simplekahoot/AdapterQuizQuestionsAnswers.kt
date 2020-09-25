@@ -14,7 +14,9 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
 
 
     val layoutInflator= LayoutInflater.from(context)
-    lateinit var studentTransactionDetails:List<TransactionDetails>
+
+    var studentanswer:Int =0
+
 
     override fun getItemCount(): Int {
         return questions.size
@@ -42,11 +44,13 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
             4->{holder.alternative4.setBackgroundColor(Color.GREEN)}
         }
 
-        when(studentTransactionDetails[0].studentanswer){
-            1->{holder.txtStudentAnswer.setText(studentTransactionDetails[0].question.alternativeAnswer1)}
-            2->{holder.txtStudentAnswer.setText(studentTransactionDetails[0].question.alternativeAnswer2)}
-            3->{holder.txtStudentAnswer.setText(studentTransactionDetails[0].question.alternativeAnswer3)}
-            4->{holder.txtStudentAnswer.setText(studentTransactionDetails[0].question.alternativeAnswer4)}
+
+
+        when(studentanswer){
+            1->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer1)}
+            2->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer2)}
+            3->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer3)}
+            4->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer4)}
         }
 
     }
@@ -59,7 +63,7 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
         val txtStudentAnswer=myView.findViewById<TextView>(R.id.txtStudentAnswer)
         var myposition=0
         init {
-            studentTransactionDetails=allTransactionDetails.filter { td->td.quizcode==quizcode && td.question== questions[myposition]&&td.student== currentStudent}
+            studentanswer=allTransactionDetails.filter { td->td.quizcode==quizcode && td.question== questions[myposition]&&td.student== currentStudent}[0].studentanswer
         }
 
 
