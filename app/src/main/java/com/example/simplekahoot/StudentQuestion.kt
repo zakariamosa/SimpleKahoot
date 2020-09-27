@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
+private var Quiz_Code="0"
 
 class StudentQuestion : Fragment() {
 
@@ -222,6 +222,11 @@ class StudentQuestion : Fragment() {
         totalquestionsnumber: Int,
         inserttransactiondetails: Boolean
     ) {
+
+
+
+
+
         var nextquestionnumber:String
         if (thisquestionnumber==totalquestionsnumber&&isRightAnswer){
             nextquestionnumber="lastquestion"
@@ -232,6 +237,7 @@ class StudentQuestion : Fragment() {
             param1="${(currentStudent.Score).toString()} / ${(totalquestionsnumber*100).toString()}"
         }else{
             nextquestionnumber=(thisquestionnumber!!.toInt()+1).toString()
+            Quiz_Code=param1!!
         }
 
         if (isRightAnswer){
@@ -254,15 +260,15 @@ class StudentQuestion : Fragment() {
 
 
         txtscore.text = currentStudent.Score.toString()//currentprog.toString()
+
         if (inserttransactiondetails){
             insertTransactionDetail(txtscore.text.toString().toDouble())
         }
-
         stopSound()
     }
 
     fun insertTransactionDetail(studentcurrentscour:Double){
-        allTransactionDetails.add(TransactionDetails(param1.toString(),currentQuestion,CurrentStudentAnswer,
+        allTransactionDetails.add(TransactionDetails(Quiz_Code,currentQuestion,CurrentStudentAnswer,
             currentStudent,studentcurrentscour))
         /*Log.d("!!!",CurrentStudentAnswer.toString())
         for (trand in allTransactionDetails){

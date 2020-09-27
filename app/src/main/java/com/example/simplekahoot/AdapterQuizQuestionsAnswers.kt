@@ -11,12 +11,14 @@ import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 
-class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableList<Question>,val quizcode:String):RecyclerView.Adapter<AdapterQuizQuestionsAnswers.ViewHolder>() {
+class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableList<Question>,val quizcode:String,val td:List<TransactionDetails>):RecyclerView.Adapter<AdapterQuizQuestionsAnswers.ViewHolder>() {
 
 
     val layoutInflator= LayoutInflater.from(context)
 
     var studentanswer:Int =0
+    //lateinit var studenttransactiondetailsforthisquiz:List<TransactionDetails>
+    lateinit var studenttransactiondetailsforthisquiz:TransactionDetails
 
 
     override fun getItemCount(): Int {
@@ -46,14 +48,26 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
         }
 
 
-        studentanswer=allTransactionDetails.filter { td->td.quizcode==quizcode && td.question.question== questions[position].question&&td.student.StudentName== currentStudent.StudentName}[0]?.studentanswer
-        when(studentanswer){
-            1->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer1)}
-            2->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer2)}
-            3->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer3)}
-            4->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer4)}
-            else->{holder.txtStudentAnswer.setText("Did not answer")}
+        studentanswer = td[position].studentanswer
+
+        when (studentanswer) {
+            1 -> {
+                holder.txtStudentAnswer.setText(qustn.alternativeAnswer1)
+            }
+            2 -> {
+                holder.txtStudentAnswer.setText(qustn.alternativeAnswer2)
+            }
+            3 -> {
+                holder.txtStudentAnswer.setText(qustn.alternativeAnswer3)
+            }
+            4 -> {
+                holder.txtStudentAnswer.setText(qustn.alternativeAnswer4)
+            }
+            else -> {
+                holder.txtStudentAnswer.setText("Did not answer")
+            }
         }
+
 
     }
     inner class ViewHolder(myView: View):RecyclerView.ViewHolder(myView){
@@ -63,6 +77,8 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
         val alternative3=myView.findViewById<TextView>(R.id.txtViewQuestionAlternativeAnswer3)
         val alternative4=myView.findViewById<TextView>(R.id.txtViewQuestionAlternativeAnswer4)
         val txtStudentAnswer=myView.findViewById<TextView>(R.id.txtStudentAnswer)
+
+
 
 
 

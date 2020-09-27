@@ -42,10 +42,14 @@ class fragmentcorrectanswersforquiz : Fragment() {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_fragmentcorrectanswersforquiz, container, false)
 
+
+
+        var studenttransactiondetailsforthisquiz=allTransactionDetails.filter { td->td.quizcode==param3 &&td.student.StudentName== currentStudent.StudentName}
+
         var questions=allQuizes.filter { quz->quz.quizCode==param3}[0].questions
         val rcyklview=view.findViewById<RecyclerView>(R.id.recyclerViewQuizCorrectAnswers)
         rcyklview.layoutManager=LinearLayoutManager(view.context)
-        val myadapter=AdapterQuizQuestionsAnswers(view.context,questions!!,param3!!)
+        val myadapter=AdapterQuizQuestionsAnswers(view.context,questions!!,param3!!,studenttransactiondetailsforthisquiz)
         rcyklview.adapter=myadapter
 
 
