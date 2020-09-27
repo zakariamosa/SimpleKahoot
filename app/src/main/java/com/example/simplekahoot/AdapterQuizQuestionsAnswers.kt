@@ -2,6 +2,7 @@ package com.example.simplekahoot
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,7 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
         holder.alternative2.text=qustn.alternativeAnswer2
         holder.alternative3.text=qustn.alternativeAnswer3
         holder.alternative4.text=qustn.alternativeAnswer4
-        holder.myposition=position
+
 
         when(qustn.rightAnswer){
             1->{holder.alternative1.setBackgroundColor(Color.GREEN)}
@@ -45,7 +46,7 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
         }
 
 
-
+        studentanswer=allTransactionDetails.filter { td->td.quizcode==quizcode && td.question.question== questions[position].question&&td.student.StudentName== currentStudent.StudentName}[0]?.studentanswer
         when(studentanswer){
             1->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer1)}
             2->{holder.txtStudentAnswer.setText(qustn.alternativeAnswer2)}
@@ -62,10 +63,7 @@ class AdapterQuizQuestionsAnswers(val context: Context, val questions:MutableLis
         val alternative3=myView.findViewById<TextView>(R.id.txtViewQuestionAlternativeAnswer3)
         val alternative4=myView.findViewById<TextView>(R.id.txtViewQuestionAlternativeAnswer4)
         val txtStudentAnswer=myView.findViewById<TextView>(R.id.txtStudentAnswer)
-        var myposition=0
-        init {
-            studentanswer=allTransactionDetails.filter { td->td.quizcode==quizcode && td.question== questions[myposition]&&td.student== currentStudent}[0].studentanswer
-        }
+
 
 
 

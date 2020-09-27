@@ -112,7 +112,7 @@ class StudentQuestion : Fragment() {
 
             override fun onFinish() {
                 myprogressbar.setBackgroundColor(Color.RED)
-                calculateScore(0, false, QuestionNumber, totalquestions)
+                calculateScore(0, false, QuestionNumber, totalquestions,false)
                 stopSound()
             }
         }
@@ -133,7 +133,8 @@ class StudentQuestion : Fragment() {
                         myprogressbar.progress,
                         isRightAnswer,
                         QuestionNumber,
-                        totalquestions
+                        totalquestions,
+                        true
                     )
                 }
 
@@ -155,7 +156,8 @@ class StudentQuestion : Fragment() {
                         myprogressbar.progress,
                         isRightAnswer,
                         QuestionNumber,
-                        totalquestions
+                        totalquestions,
+                        true
                     )
                 }
 
@@ -177,7 +179,8 @@ class StudentQuestion : Fragment() {
                         myprogressbar.progress,
                         isRightAnswer,
                         QuestionNumber,
-                        totalquestions
+                        totalquestions,
+                        true
                     )
                 }
 
@@ -199,7 +202,8 @@ class StudentQuestion : Fragment() {
                         myprogressbar.progress,
                         isRightAnswer,
                         QuestionNumber,
-                        totalquestions
+                        totalquestions,
+                        true
                     )
                 }
 
@@ -215,7 +219,8 @@ class StudentQuestion : Fragment() {
         currentprog: Int,
         isRightAnswer: Boolean,
         thisquestionnumber: Int,
-        totalquestionsnumber: Int
+        totalquestionsnumber: Int,
+        inserttransactiondetails: Boolean
     ) {
         var nextquestionnumber:String
         if (thisquestionnumber==totalquestionsnumber&&isRightAnswer){
@@ -249,7 +254,10 @@ class StudentQuestion : Fragment() {
 
 
         txtscore.text = currentStudent.Score.toString()//currentprog.toString()
-        insertTransactionDetail(txtscore.text.toString().toDouble())
+        if (inserttransactiondetails){
+            insertTransactionDetail(txtscore.text.toString().toDouble())
+        }
+
         stopSound()
     }
 
