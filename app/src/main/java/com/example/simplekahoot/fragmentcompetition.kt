@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import kotlinx.android.synthetic.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,7 @@ class fragmentcompetition : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,7 +39,39 @@ class fragmentcompetition : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragmentcompetition, container, false)
+        var view=inflater.inflate(R.layout.fragment_fragmentcompetition, container, false)
+        setBarChart(view)
+        return view
+    }
+
+    private fun setBarChart(view:View) {
+        val entries = ArrayList<BarEntry>()
+        entries.add(BarEntry(8f, 0))
+        entries.add(BarEntry(2f, 1))
+        entries.add(BarEntry(5f, 2))
+        entries.add(BarEntry(20f, 3))
+        entries.add(BarEntry(15f, 4))
+        entries.add(BarEntry(19f, 5))
+
+        val barDataSet = BarDataSet(entries, "Cells")
+
+        val labels = ArrayList<String>()
+        labels.add("18-Jan")
+        labels.add("19-Jan")
+        labels.add("20-Jan")
+        labels.add("21-Jan")
+        labels.add("22-Jan")
+        labels.add("23-Jan")
+        val data = BarData(labels, barDataSet)
+        var barChart=view.findViewById<com.github.mikephil.charting.charts.BarChart>(R.id.barChart)
+        barChart.data = data // set the data and list of lables into chart
+
+        barChart.setDescription("Set Bar Chart Description")  // set the description
+
+        //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS)
+        barDataSet.color = resources.getColor(R.color.colorAccent)
+
+        barChart.animateY(5000)
     }
 
     companion object {
