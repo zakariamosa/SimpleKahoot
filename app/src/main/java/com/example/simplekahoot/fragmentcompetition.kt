@@ -1,5 +1,6 @@
 package com.example.simplekahoot
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
@@ -116,7 +117,7 @@ class fragmentcompetition : Fragment() {
             entries.add(BarEntry(15f, 4))
             entries.add(BarEntry(19f, 5))*/
 
-            val barDataSet = BarDataSet(entries, "Cells")
+            val barDataSet = BarDataSet(entries, "Rate")
 
             val labels = ArrayList<String>()
 
@@ -139,7 +140,15 @@ class fragmentcompetition : Fragment() {
 
             //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS)
             //barDataSet.color = resources.getColor(R.color.colorAccent)
-            barDataSet.color = resources.getColor(R.color.colorPrimary)
+            //barDataSet.color = resources.getColor(R.color.colorPrimary)
+            val listColors = ArrayList<Int>()
+            listColors.add(Color.GREEN)
+            listColors.add(Color.BLUE)
+            listColors.add(Color.YELLOW)
+            listColors.add(Color.CYAN)
+            listColors.add(Color.BLACK)
+            listColors.add(Color.DKGRAY)
+            barDataSet.colors=listColors
 
             barChart.animateY(5000)
         }
