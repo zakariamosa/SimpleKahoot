@@ -46,6 +46,9 @@ class FragmentRightAnswer : Fragment() {
 
         fitchnextquestion()
 
+
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_right_answer, container, false)
 
@@ -64,15 +67,24 @@ class FragmentRightAnswer : Fragment() {
             }
 
             override fun onFinish() {
-                if (p2=="lastquestion"){
-                    val fragment = FragmentStudentResult.newInstance(p1!!,p2,p3)
+                var howmanystudentattendenthequiz= allTransactionDetails.filter { td->td.student.StudentName!= currentStudent.StudentName }
+                if (howmanystudentattendenthequiz.size==0) {
+                    if (p2 == "lastquestion") {
+                        val fragment = FragmentStudentResult.newInstance(p1!!, p2, p3)
+                        val transaction = frg?.beginTransaction()
+                        transaction?.replace(R.id.container, fragment, "FragmentStudentResult")
+                        transaction?.commit()
+                    } else {
+                        val fragment = StudentQuestion.newInstance(p1!!, p2)
+                        val transaction = frg?.beginTransaction()
+                        transaction?.replace(R.id.container, fragment, "studentQuestionFragment")
+                        transaction?.commit()
+                    }
+                }
+                else {
+                    val fragment = fragmentcompetition.newInstance(param1!!, param2!!, param3!!)
                     val transaction = frg?.beginTransaction()
-                    transaction?.replace(R.id.container, fragment, "FragmentStudentResult")
-                    transaction?.commit()
-                }else{
-                    val fragment = StudentQuestion.newInstance(p1!!,p2)
-                    val transaction = frg?.beginTransaction()
-                    transaction?.replace(R.id.container, fragment, "studentQuestionFragment")
+                    transaction?.replace(R.id.container, fragment, "Fragmentcomptetion")
                     transaction?.commit()
                 }
                stopSound()
