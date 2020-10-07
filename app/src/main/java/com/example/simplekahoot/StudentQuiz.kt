@@ -6,7 +6,9 @@ import android.os.Bundle
 class StudentQuiz : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        super.setTheme(R.style.AppThemeFullScreen)
         setContentView(R.layout.activity_student_quiz)
+
 
 
 
