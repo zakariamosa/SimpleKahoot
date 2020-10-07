@@ -107,9 +107,10 @@ class fragmentcompetition : Fragment() {
             //entries.add(BarEntry(0f, 0))
             var i:Int=0
             for (td in studenttransactiondetailsforthisquizandquistion){
-                entries.add(BarEntry(td.studentcurrentscour.toFloat(), i))
+                entries.add(BarEntry(td.studentcurrentscour.toFloat(), i,td.student.StudentName))
                 i++
             }
+            entries.add(BarEntry(0f, i,""))
             /*entries.add(BarEntry(8f, 0))
             entries.add(BarEntry(2f, 1))
             entries.add(BarEntry(5f, 2))
@@ -122,10 +123,10 @@ class fragmentcompetition : Fragment() {
             val labels = ArrayList<String>()
 
             //labels.add("")
-
             for (td in studenttransactiondetailsforthisquizandquistion){
                 labels.add(td.student.StudentName)
             }
+            labels.add("")
             /*labels.add("18-Jan")
             labels.add("19-Jan")
             labels.add("20-Jan")
