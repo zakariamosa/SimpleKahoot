@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">SimpleKahoot</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="GeneralInfode1">För att få en hög poäng i quizen måste du följa följande regelarna: </string>
+    <string name="GeneralInfode2">Om frågan högsta grade är 100 poäng, delar vi graden på två principer\n </string>
+    <string name="GeneralInfode3">1- Rätt svar ger dig 90 poäng.\n
+2- Snabbhet ger dig från 1 till 10 beroende på hur snabbt man svarar. </string>
 </resources>

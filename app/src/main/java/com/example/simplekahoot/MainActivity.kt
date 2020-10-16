@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_main.*
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         var QuizCode=findViewById<EditText>(R.id.txtQuizCode)
         var QuizCodeNotFound=findViewById<TextView>(R.id.txtError)
         var btnTeacher=findViewById<Button>(R.id.btnTeacher)
+        var btnGeneralInfo=findViewById<ImageButton>(R.id.informationImageButton)
         btnGetTheQuiz.setOnClickListener(){
             QuizCodeNotFound.visibility=View.INVISIBLE
             if (validQuizCode(QuizCode.text.toString())){
@@ -64,6 +66,14 @@ class MainActivity : AppCompatActivity() {
         btnTeacher.setOnClickListener(){
             goToTeacherLoginActivity()
         }
+        btnGeneralInfo.setOnClickListener(){
+            goToGeneralInfoActivity()
+        }
+    }
+
+    fun goToGeneralInfoActivity(){
+        var intent=Intent(this,GeneralInformation::class.java)
+        startActivity(intent)
     }
 
     fun goToCurrentStudentActivity( QuizCode:String){

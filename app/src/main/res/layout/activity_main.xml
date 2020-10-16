@@ -61,4 +61,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtQuizCode"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/informationImageButton"
+        android:layout_width="50dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="195dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="166dp"
+        android:layout_marginBottom="382dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtQuizCode"
+        app:srcCompat="@drawable/ic_baseline_info_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
