@@ -75,7 +75,7 @@ class FragmentRightAnswer : Fragment() {
                         transaction?.replace(R.id.container, fragment, "FragmentStudentResult")
                         transaction?.commit()
                     } else {
-                        val fragment = StudentQuestion.newInstance(p1!!, p2)
+                        val fragment = StudentQuestion.newInstance(p1!!, p2,currenttransactionId)
                         val transaction = frg?.beginTransaction()
                         transaction?.replace(R.id.container, fragment, "studentQuestionFragment")
                         transaction?.commit()

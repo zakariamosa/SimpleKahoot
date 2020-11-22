@@ -7,11 +7,23 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.room.Room
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class TeacherLogin : AppCompatActivity() {
+class TeacherLogin : AppCompatActivity(), CoroutineScope {
+    private lateinit var job : Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+    lateinit var db:AppDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teacher_login)
+
+        job = Job()
+
+        db = AppDatabase.getInstance(this)
 
         var btnLoginTeacher=findViewById<Button>(R.id.btnLogin)
         var txtemail=findViewById<EditText>(R.id.txtNewTeacherEmail)
@@ -20,19 +32,20 @@ class TeacherLogin : AppCompatActivity() {
         var btnNewTeacher=findViewById<Button>(R.id.btnNewTeacher)
         btnLoginTeacher.setOnClickListener(){
             txterrorlogin.visibility= View.INVISIBLE
-            var validlogin=validLogin(txtemail.text.toString(),txtpwd.text.toString())
-            if(validlogin){
-                goToTeacherHomeActivity()
-            }else{
-                txterrorlogin.text="Invalid Login"
-                txterrorlogin.visibility= View.VISIBLE
+            val teacher=async(Dispatchers.IO) {
+                db.teacherDao.getTeacherByEmailAndPassword(txtemail.text.toString(),txtpwd.text.toString())
             }
+            launch{
+                currentTeacher=teacher.await()[0]
+                goToTeacherHomeActivity()
+            }
+
         }
         btnNewTeacher.setOnClickListener(){
             goToNewTeacherActivity()
         }
     }
-
+/*
     fun validLogin(email:String,password:String):Boolean{
         for (teacher in allTeachers){
             if (teacher.email==email&&teacher.password==password){
@@ -41,6 +54,19 @@ class TeacherLogin : AppCompatActivity() {
             }
         }
         return false
+    }
+*/
+    private fun validLogin(email:String,password:String):Boolean {
+        launch(Dispatchers.IO){
+            var teacher=db.teacherDao.getTeacherByEmailAndPassword(email,password)
+            if (teacher!=null){
+                currentTeacher=teacher[0]
+            }
+        }
+        return when(currentTeacher){
+            null->false
+            else->true
+        }
     }
 
     fun goToTeacherHomeActivity(){

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,11 +22,16 @@ private const val ARG_PARAM3 = "param3"
  * Use the [fragmentcorrectanswersforquiz.newInstance] factory method to
  * create an instance of this fragment.
  */
-class fragmentcorrectanswersforquiz : Fragment() {
+class fragmentcorrectanswersforquiz : Fragment(), CoroutineScope {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var param3: String? = null
+
+    private lateinit var job : Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+    lateinit var db:AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,18 +49,30 @@ class fragmentcorrectanswersforquiz : Fragment() {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_fragmentcorrectanswersforquiz, container, false)
 
+        job = Job()
+
+        db = AppDatabase.getInstance(this@fragmentcorrectanswersforquiz.context!!)
+
+        var studenttransactiondetailsforthisquiz=allTransactionDetails.filter { td->td.student.quizCode==param3 &&td.student.StudentName== currentStudent.StudentName}
+
+        val questions=async(Dispatchers.IO) {
+            db.questionDao.getAllQuestionsTillSpecificQuiz(1)//zakkkkkkkk
+        }
+        launch {
+
+            //var questions=allQuizes.filter { quz->quz.quizCode==param3}[0].questions
+            val rcyklview = view.findViewById<RecyclerView>(R.id.recyclerViewQuizCorrectAnswers)
+            rcyklview.layoutManager = LinearLayoutManager(view.context)
+            val myadapter = AdapterQuizQuestionsAnswers(
+                view.context,
+                questions.await()!! as MutableList<Question>,
+                param3!!,
+                studenttransactiondetailsforthisquiz
+            )
+            rcyklview.adapter = myadapter
 
 
-        var studenttransactiondetailsforthisquiz=allTransactionDetails.filter { td->td.quizcode==param3 &&td.student.StudentName== currentStudent.StudentName}
-
-        var questions=allQuizes.filter { quz->quz.quizCode==param3}[0].questions
-        val rcyklview=view.findViewById<RecyclerView>(R.id.recyclerViewQuizCorrectAnswers)
-        rcyklview.layoutManager=LinearLayoutManager(view.context)
-        val myadapter=AdapterQuizQuestionsAnswers(view.context,questions!!,param3!!,studenttransactiondetailsforthisquiz)
-        rcyklview.adapter=myadapter
-
-
-
+        }
 
         return view
     }

@@ -1,4 +1,16 @@
 package com.example.simplekahoot
 
-class TransactionDetails(val quizcode:String,val question:Question, val studentanswer:Int, val student:Student,val studentcurrentscour:Double) {
-}
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "transactionDetails")
+data class TransactionDetails(
+    @PrimaryKey(autoGenerate = true) val transactionDetailsId: Long,
+//    val quizcode:String,
+    @Embedded val question:Question,
+    val studentanswer:Int,
+    @Embedded val student:Student,
+    val studentcurrentscour:Double,
+    val transactionId: Int
+)

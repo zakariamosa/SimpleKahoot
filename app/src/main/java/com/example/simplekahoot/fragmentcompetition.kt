@@ -11,6 +11,8 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import kotlinx.android.synthetic.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,11 +25,16 @@ private const val ARG_PARAM3 = "param3"
  * Use the [fragmentcompetition.newInstance] factory method to
  * create an instance of this fragment.
  */
-class fragmentcompetition : Fragment() {
+class fragmentcompetition : Fragment(), CoroutineScope {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var param3: String? = null
+
+    private lateinit var job : Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+    lateinit var db:AppDatabase
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +55,9 @@ class fragmentcompetition : Fragment() {
 
 
 
+        job = Job()
 
+        db = AppDatabase.getInstance(this@fragmentcompetition.context!!)
 
         setBarChart(view)
 
@@ -84,7 +93,7 @@ class fragmentcompetition : Fragment() {
                     transaction?.replace(R.id.container, fragment, "FragmentStudentResult")
                     transaction?.commit()
                 }else{
-                    val fragment = StudentQuestion.newInstance(p1!!,p2)
+                    val fragment = StudentQuestion.newInstance(p1!!,p2,currenttransactionId)
                     val transaction = frg?.beginTransaction()
                     transaction?.replace(R.id.container, fragment, "studentQuestionFragment")
                     transaction?.commit()
@@ -99,12 +108,18 @@ class fragmentcompetition : Fragment() {
     private fun setBarChart(view:View) {
         val entries = ArrayList<BarEntry>()
 
-        var quizquestions = allQuizes.filter { Quiz -> Quiz.quizCode == param3 }
+        val quizquestions=async(Dispatchers.IO) {
+            db.quizDao.getQuizWithQuestions(currentStudent.quizCode)//zakkkkkkkk
+        }
+        launch {
+
+
+        //var quizquestions = allQuizes.filter { Quiz -> Quiz.quizCode == param3 }
 
         var currentQuestion=when(param2!!){
-            "lastquestion"->quizquestions[0]?.questions?.get(quizquestions[0].numberOfQuestions-1)
-            else->quizquestions[0]?.questions?.get(param2!!.toInt()-2)}
-        var studenttransactiondetailsforthisquizandquistion=allTransactionDetails.filter { td->td.quizcode==param3 &&td.question.question==currentQuestion!!.question}
+            "lastquestion"->quizquestions.await()[0]?.questions?.get(quizquestions.await()[0].quiz.numberOfQuestions-1)
+            else->quizquestions.await()[0]?.questions?.get(param2!!.toInt()-2)}
+        var studenttransactiondetailsforthisquizandquistion=allTransactionDetails.filter { td->td.student.quizCode==param3 &&td.question.question==currentQuestion!!.question}
         if (studenttransactiondetailsforthisquizandquistion.size>1){
             //entries.add(BarEntry(0f, 0))
             var i:Int=0
@@ -139,7 +154,7 @@ class fragmentcompetition : Fragment() {
             var barChart=view.findViewById<com.github.mikephil.charting.charts.BarChart>(R.id.barChart)
             barChart.data = data // set the data and list of lables into chart
 
-            barChart.setDescription(quizquestions[0]?.quizName)  // set the description
+            barChart.setDescription(quizquestions.await()[0]?.quiz.quizName)  // set the description
 
             //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS)
             //barDataSet.color = resources.getColor(R.color.colorAccent)
@@ -155,7 +170,7 @@ class fragmentcompetition : Fragment() {
 
             barChart.animateY(5000)
         }
-
+        }
 
     }
 

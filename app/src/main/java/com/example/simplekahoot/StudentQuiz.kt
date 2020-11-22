@@ -22,7 +22,8 @@ class StudentQuiz : AppCompatActivity() {
 
     fun callStudentQuestion(){
         val quzcode = intent.getStringExtra("QuizCode").toString()
-        val studentQuestionFragment =  StudentQuestion.newInstance(quzcode,"1")
+        val transactionId = intent.getStringExtra("transactionId").toString()
+        val studentQuestionFragment =  StudentQuestion.newInstance(quzcode,"1",transactionId)
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.container, studentQuestionFragment, "studentQuestionFragment" )

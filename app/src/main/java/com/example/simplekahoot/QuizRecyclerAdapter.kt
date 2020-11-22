@@ -3,14 +3,17 @@ package com.example.simplekahoot
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class QuizRecyclerAdapter(val context: Context, val quizes:List<Quiz>):RecyclerView.Adapter<QuizRecyclerAdapter.ViewHolder>() {
+
+class QuizRecyclerAdapter(val context: Context, val quizes: List<Quiz>):RecyclerView.Adapter<QuizRecyclerAdapter.ViewHolder>() {
 
     val layoutInflator= LayoutInflater.from(context)
     private var myClipboard: ClipboardManager? = null
@@ -21,7 +24,7 @@ class QuizRecyclerAdapter(val context: Context, val quizes:List<Quiz>):RecyclerV
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView=layoutInflator.inflate(R.layout.list_quizes_items,parent,false)
+        val itemView=layoutInflator.inflate(R.layout.list_quizes_items, parent, false)
 
         return ViewHolder(itemView)
     }
@@ -34,6 +37,18 @@ class QuizRecyclerAdapter(val context: Context, val quizes:List<Quiz>):RecyclerV
         holder.btnCopyQuizCode.setOnClickListener(){
             myClip = ClipData.newPlainText("text", teacherQuizItewm.quizCode)
             myClipboard?.setPrimaryClip(myClip!!)
+
+            var textToCopy = ""
+            textToCopy=teacherQuizItewm.quizCode
+            val clipboardManager =
+                this@QuizRecyclerAdapter.context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("text", textToCopy)
+            clipboardManager.setPrimaryClip(clipData)
+            Toast.makeText(
+                this@QuizRecyclerAdapter.context,
+                "Text copied to clipboard",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
