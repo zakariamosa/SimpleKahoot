@@ -106,6 +106,7 @@ try {
                 )
                 launch(Dispatchers.IO) {
                     db.questionDao.insertQuestion(q)
+                }
                     question.setText("")
                     answer1.setText("")
                     answer2.setText("")
@@ -124,7 +125,7 @@ try {
                         var intent= Intent(this@MainQuestion,TeacherHome::class.java)
                         startActivity(intent)
                     }
-                }
+
             }
 
         }

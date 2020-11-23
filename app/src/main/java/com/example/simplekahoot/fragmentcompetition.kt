@@ -54,10 +54,10 @@ class fragmentcompetition : Fragment(), CoroutineScope {
         var view=inflater.inflate(R.layout.fragment_fragmentcompetition, container, false)
 
 
-
         job = Job()
 
         db = AppDatabase.getInstance(this@fragmentcompetition.context!!)
+
 
         setBarChart(view)
 
@@ -106,6 +106,9 @@ class fragmentcompetition : Fragment(), CoroutineScope {
     }
 
     private fun setBarChart(view:View) {
+
+
+
         val entries = ArrayList<BarEntry>()
 
         val quizquestions=async(Dispatchers.IO) {
@@ -114,62 +117,68 @@ class fragmentcompetition : Fragment(), CoroutineScope {
         launch {
 
 
-        //var quizquestions = allQuizes.filter { Quiz -> Quiz.quizCode == param3 }
+            //var quizquestions = allQuizes.filter { Quiz -> Quiz.quizCode == param3 }
 
-        var currentQuestion=when(param2!!){
-            "lastquestion"->quizquestions.await()[0]?.questions?.get(quizquestions.await()[0].quiz.numberOfQuestions-1)
-            else->quizquestions.await()[0]?.questions?.get(param2!!.toInt()-2)}
-        var studenttransactiondetailsforthisquizandquistion=allTransactionDetails.filter { td->td.student.quizCode==param3 &&td.question.question==currentQuestion!!.question}
-        if (studenttransactiondetailsforthisquizandquistion.size>1){
-            //entries.add(BarEntry(0f, 0))
-            var i:Int=0
-            for (td in studenttransactiondetailsforthisquizandquistion){
-                entries.add(BarEntry(td.studentcurrentscour.toFloat(), i,td.student.StudentName))
-                i++
+            var currentQuestion=when(param2!!){
+                "lastquestion"->quizquestions.await()[0]?.questions?.get(quizquestions.await()[0].quiz.numberOfQuestions-1)
+                else->quizquestions.await()[0]?.questions?.get(param2!!.toInt()-2)}
+            //var studenttransactiondetailsforthisquizandquistion=allTransactionDetails.filter { td->td.student.quizCode==param3 &&td.question.question==currentQuestion!!.question}
+            var studenttransactiondetailsforthisquizandquistion=async(Dispatchers.IO) {
+                db.transactionDetailsDao.gettransactiondetailstoAllstudents(currentQuizCode,currentQuestion!!.questionId)
             }
-            entries.add(BarEntry(0f, i,""))
-            /*entries.add(BarEntry(8f, 0))
-            entries.add(BarEntry(2f, 1))
-            entries.add(BarEntry(5f, 2))
-            entries.add(BarEntry(200f, 3))
-            entries.add(BarEntry(15f, 4))
-            entries.add(BarEntry(19f, 5))*/
+            launch {
 
-            val barDataSet = BarDataSet(entries, "Rate")
+                if (studenttransactiondetailsforthisquizandquistion.await().size>1){
+                    //entries.add(BarEntry(0f, 0))
+                    var i:Int=0
+                    for (td in studenttransactiondetailsforthisquizandquistion.await()){
+                        entries.add(BarEntry(td.studentcurrentscour.toFloat(), i,td.student.StudentName))
+                        i++
+                    }
+                    entries.add(BarEntry(0f, i,""))
+                    /*entries.add(BarEntry(8f, 0))
+                    entries.add(BarEntry(2f, 1))
+                    entries.add(BarEntry(5f, 2))
+                    entries.add(BarEntry(200f, 3))
+                    entries.add(BarEntry(15f, 4))
+                    entries.add(BarEntry(19f, 5))*/
 
-            val labels = ArrayList<String>()
+                    val barDataSet = BarDataSet(entries, "Rate")
 
-            //labels.add("")
-            for (td in studenttransactiondetailsforthisquizandquistion){
-                labels.add(td.student.StudentName)
+                    val labels = ArrayList<String>()
+
+                    //labels.add("")
+                    for (td in studenttransactiondetailsforthisquizandquistion.await()){
+                        labels.add(td.student.StudentName)
+                    }
+                    labels.add("")
+                    /*labels.add("18-Jan")
+                    labels.add("19-Jan")
+                    labels.add("20-Jan")
+                    labels.add("21-Jan")
+                    labels.add("22-Jan")
+                    labels.add("23-Jan")*/
+                    val data = BarData(labels, barDataSet)
+                    var barChart=view.findViewById<com.github.mikephil.charting.charts.BarChart>(R.id.barChart)
+                    barChart.data = data // set the data and list of lables into chart
+
+                    barChart.setDescription(quizquestions.await()[0]?.quiz.quizName)  // set the description
+
+                    //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS)
+                    //barDataSet.color = resources.getColor(R.color.colorAccent)
+                    //barDataSet.color = resources.getColor(R.color.colorPrimary)
+                    val listColors = ArrayList<Int>()
+                    listColors.add(Color.GREEN)
+                    listColors.add(Color.BLUE)
+                    listColors.add(Color.YELLOW)
+                    listColors.add(Color.CYAN)
+                    listColors.add(Color.BLACK)
+                    listColors.add(Color.DKGRAY)
+                    barDataSet.colors=listColors
+
+                    barChart.animateY(5000)
+                }
             }
-            labels.add("")
-            /*labels.add("18-Jan")
-            labels.add("19-Jan")
-            labels.add("20-Jan")
-            labels.add("21-Jan")
-            labels.add("22-Jan")
-            labels.add("23-Jan")*/
-            val data = BarData(labels, barDataSet)
-            var barChart=view.findViewById<com.github.mikephil.charting.charts.BarChart>(R.id.barChart)
-            barChart.data = data // set the data and list of lables into chart
-
-            barChart.setDescription(quizquestions.await()[0]?.quiz.quizName)  // set the description
-
-            //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS)
-            //barDataSet.color = resources.getColor(R.color.colorAccent)
-            //barDataSet.color = resources.getColor(R.color.colorPrimary)
-            val listColors = ArrayList<Int>()
-            listColors.add(Color.GREEN)
-            listColors.add(Color.BLUE)
-            listColors.add(Color.YELLOW)
-            listColors.add(Color.CYAN)
-            listColors.add(Color.BLACK)
-            listColors.add(Color.DKGRAY)
-            barDataSet.colors=listColors
-
-            barChart.animateY(5000)
-        }
         }
 
     }

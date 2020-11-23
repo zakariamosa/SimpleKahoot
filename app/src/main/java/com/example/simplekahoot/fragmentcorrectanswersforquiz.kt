@@ -53,26 +53,34 @@ class fragmentcorrectanswersforquiz : Fragment(), CoroutineScope {
 
         db = AppDatabase.getInstance(this@fragmentcorrectanswersforquiz.context!!)
 
-        var studenttransactiondetailsforthisquiz=allTransactionDetails.filter { td->td.student.quizCode==param3 &&td.student.StudentName== currentStudent.StudentName}
 
-        val questions=async(Dispatchers.IO) {
-            db.questionDao.getAllQuestionsTillSpecificQuiz(1)//zakkkkkkkk
+
+        //var studenttransactiondetailsforthisquiz=allTransactionDetails.filter { td->td.student.quizCode==param3 &&td.student.StudentName== currentStudent.StudentName}
+        val gettransactiondetailstothecurrenttransaction=async(Dispatchers.IO) {
+            db.transactionDetailsDao.gettransactiondetailstothecurrenttransaction(currentQuizCode,currenttransactionId.toInt())
         }
         launch {
+            val questions=async(Dispatchers.IO) {
+                db.questionDao.getAllQuestionsTillSpecificQuiz(gettransactiondetailstothecurrenttransaction.await()[0].question.quizId)//zakkkkkkkk
+            }
+            launch {
 
-            //var questions=allQuizes.filter { quz->quz.quizCode==param3}[0].questions
-            val rcyklview = view.findViewById<RecyclerView>(R.id.recyclerViewQuizCorrectAnswers)
-            rcyklview.layoutManager = LinearLayoutManager(view.context)
-            val myadapter = AdapterQuizQuestionsAnswers(
-                view.context,
-                questions.await()!! as MutableList<Question>,
-                param3!!,
-                studenttransactiondetailsforthisquiz
-            )
-            rcyklview.adapter = myadapter
+                //var questions=allQuizes.filter { quz->quz.quizCode==param3}[0].questions
+                val rcyklview = view.findViewById<RecyclerView>(R.id.recyclerViewQuizCorrectAnswers)
+                rcyklview.layoutManager = LinearLayoutManager(view.context)
+                val myadapter = AdapterQuizQuestionsAnswers(
+                    view.context,
+                    questions.await()!! as MutableList<Question>,
+                    param3!!,
+                    gettransactiondetailstothecurrenttransaction.await()
+                )
+                rcyklview.adapter = myadapter
 
 
+            }
         }
+
+
 
         return view
     }

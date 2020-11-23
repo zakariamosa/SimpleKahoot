@@ -24,6 +24,7 @@ var allStudents= mutableListOf<Student>()
 var allTransactions= mutableListOf<Transaction>()
 var allTransactionDetails= mutableListOf<TransactionDetails>()
 var currenttransactionId:String=""
+var currentQuizCode:String=""
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
 

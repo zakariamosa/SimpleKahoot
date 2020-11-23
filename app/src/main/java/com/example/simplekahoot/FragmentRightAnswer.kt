@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.coroutines.*
 import java.lang.Thread.sleep
+import kotlin.coroutines.CoroutineContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,7 +23,14 @@ private const val ARG_PARAM3 = "param3"
  * Use the [FragmentRightAnswer.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FragmentRightAnswer : Fragment() {
+class FragmentRightAnswer : Fragment(), CoroutineScope {
+
+    private lateinit var job : Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+    lateinit var db:AppDatabase
+
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -42,6 +51,8 @@ class FragmentRightAnswer : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
 
 
         fitchnextquestion()
@@ -67,27 +78,38 @@ class FragmentRightAnswer : Fragment() {
             }
 
             override fun onFinish() {
-                var howmanystudentattendenthequiz= allTransactionDetails.filter { td->td.student.StudentName!= currentStudent.StudentName }
-                if (howmanystudentattendenthequiz.size==0) {
-                    if (p2 == "lastquestion") {
-                        val fragment = FragmentStudentResult.newInstance(p1!!, p2, p3)
+                job = Job()
+
+                db = AppDatabase.getInstance(this@FragmentRightAnswer.context!!)
+                val thisquiztransactiondetailsfortheothers=async(Dispatchers.IO) {
+                    db.transactionDetailsDao.gettransactiondetailstotheotherstudents(currentQuizCode,currentStudent.StudentName)
+                }
+                launch {
+                    //var howmanystudentattendenthequiz= allTransactionDetails.filter { td->td.student.StudentName!= currentStudent.StudentName }
+                    var howmanystudentattendenthequiz= thisquiztransactiondetailsfortheothers.await()
+                    if (howmanystudentattendenthequiz.size==0) {
+                        if (p2 == "lastquestion") {
+                            val fragment = FragmentStudentResult.newInstance(p1!!, p2, p3)
+                            val transaction = frg?.beginTransaction()
+                            transaction?.replace(R.id.container, fragment, "FragmentStudentResult")
+                            transaction?.commit()
+                        } else {
+                            val fragment = StudentQuestion.newInstance(p1!!, p2,currenttransactionId)
+                            val transaction = frg?.beginTransaction()
+                            transaction?.replace(R.id.container, fragment, "studentQuestionFragment")
+                            transaction?.commit()
+                        }
+                    }
+                    else {
+                        val fragment = fragmentcompetition.newInstance(param1!!, param2!!, param3!!)
                         val transaction = frg?.beginTransaction()
-                        transaction?.replace(R.id.container, fragment, "FragmentStudentResult")
-                        transaction?.commit()
-                    } else {
-                        val fragment = StudentQuestion.newInstance(p1!!, p2,currenttransactionId)
-                        val transaction = frg?.beginTransaction()
-                        transaction?.replace(R.id.container, fragment, "studentQuestionFragment")
+                        transaction?.replace(R.id.container, fragment, "Fragmentcomptetion")
                         transaction?.commit()
                     }
+
                 }
-                else {
-                    val fragment = fragmentcompetition.newInstance(param1!!, param2!!, param3!!)
-                    val transaction = frg?.beginTransaction()
-                    transaction?.replace(R.id.container, fragment, "Fragmentcomptetion")
-                    transaction?.commit()
-                }
-               stopSound()
+                stopSound()
+
             }
         }
         timer.start()
