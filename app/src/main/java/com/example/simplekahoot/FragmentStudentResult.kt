@@ -8,6 +8,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_student_result.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,7 +25,13 @@ private const val ARG_PARAM3 = "param3"
  * Use the [FragmentStudentResult.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FragmentStudentResult : Fragment() {
+class FragmentStudentResult : Fragment(), CoroutineScope {
+
+    private lateinit var job : Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+    lateinit var db:AppDatabase
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -41,6 +52,10 @@ class FragmentStudentResult : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
+
+        job = Job()
+        db = AppDatabase.getInstance(this@FragmentStudentResult.context!!)
+
         val view=inflater.inflate(R.layout.fragment_student_result, container, false)
         val studentresult=view.findViewById<TextView>(R.id.txtViewStudentResult)
         studentresult.setText(param1)
@@ -48,6 +63,10 @@ class FragmentStudentResult : Fragment() {
         val btnshwcorrectanswrs=view.findViewById<Button>(R.id.btnShowCorrectAnswers)
         btnshwcorrectanswrs.setOnClickListener(){
             gotocorrectanswers()
+        }
+
+        launch(Dispatchers.IO){
+            db.studentDao.updateStudentScore(param1!!.substringBefore("/").toDouble(), currentStudent.studentId,param3!!)
         }
 
         return view

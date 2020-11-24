@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GeneralInformation"></activity>
+        <activity android:name=".students_results_for_quiz"></activity>
+        <activity android:name=".teacherreviewquizresult" />
+        <activity android:name=".GeneralInformation" />
         <activity android:name=".StudentQuiz" />
         <activity android:name=".FalseAnswer" />
         <activity android:name=".TrueAnswer" />
