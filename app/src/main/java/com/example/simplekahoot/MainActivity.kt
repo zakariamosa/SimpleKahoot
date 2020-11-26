@@ -26,6 +26,9 @@ var allTransactionDetails= mutableListOf<TransactionDetails>()
 var currenttransactionId:String=""
 var currentQuizCode:String=""
 
+var specificStudentId:String=""
+var specificStudentQuizCode:String=""
+
 class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private lateinit var job : Job

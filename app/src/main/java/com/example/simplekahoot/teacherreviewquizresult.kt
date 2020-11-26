@@ -29,7 +29,7 @@ class teacherreviewquizresult : AppCompatActivity(), CoroutineScope {
             db.studentDao.getStudentsByQuizCode(quzcode)
         }
         launch{
-            val myAdapter=TeacherQuizGeneralResultRecyclerAdapter(this@teacherreviewquizresult,StudentsResult.await())
+            val myAdapter=TeacherQuizGeneralResultRecyclerAdapter(this@teacherreviewquizresult,StudentsResult.await(),quzcode)
             val myRecyclerView=findViewById<RecyclerView>(R.id.recyclerviewstudentsresultforthespecificquiz)
             myRecyclerView.layoutManager= LinearLayoutManager(this@teacherreviewquizresult)
             myRecyclerView.adapter=myAdapter

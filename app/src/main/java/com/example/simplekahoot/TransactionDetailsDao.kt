@@ -18,4 +18,7 @@ interface TransactionDetailsDao {
 
     @Query("SELECT * FROM TRANSACTIONDETAILS WHERE quizCode like :quizCode AND transactionId LIKE :transactionId")
     fun gettransactiondetailstothecurrenttransaction(quizCode:String, transactionId:Int):List<TransactionDetails>
+
+    @Query("SELECT * FROM TRANSACTIONDETAILS WHERE quizCode like :quizCode AND studentId= :studentId")
+    fun gettransactiondetailstoAspecificUserAndQuiz(quizCode:String, studentId:Int):List<TransactionDetails>
 }
